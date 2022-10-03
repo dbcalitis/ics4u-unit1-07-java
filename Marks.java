@@ -12,15 +12,10 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 /**
@@ -44,23 +39,21 @@ final class Marks {
     * The generateMarks() function.
     *
     * @param arrayOfStudents the collection of students
-    * @param arrayOfAssignments the collection of assignments
-    * @return the generated marks
+    * @param arrayOfAssignments the collection of assignment
     */
     public static void generateMarks(
-                    final ArrayList<String> arrayOfStudents, 
-                    final ArrayList<String> arrayOfAssignments)
-    {
+                    final ArrayList<String> arrayOfStudents,
+                    final ArrayList<String> arrayOfAssignments) {
         // Declares Random Class
-        Random random = new Random();
+        final Random random = new Random();
 
         // Gets the number of students and assignments.
         final int studLen = arrayOfStudents.size();
         final int assLen = arrayOfAssignments.size();
 
-        final ArrayList<ArrayList<String>> table = 
+        final ArrayList<ArrayList<String>> table =
                 new ArrayList<ArrayList<String>>();
-        
+
         // Creates a new array.
         final ArrayList<String> firstRow = new ArrayList<String>();
         firstRow.add(" ");
@@ -74,7 +67,6 @@ final class Marks {
         for (int studCount = 0; studCount < studLen; studCount++) {
             final ArrayList<String> studRow = new ArrayList<String>();
             studRow.add(arrayOfStudents.get(studCount));
-            
             for (int assCount = 0; assCount < assLen; assCount++) {
                 final int mark = (int) Math.floor(
                                 random.nextGaussian() * 10 + 75);
@@ -83,37 +75,24 @@ final class Marks {
 
             table.add(studRow);
         }
-        
-        // Creates a .csv file.
-        // try {
-        File file = new File("marks.csv");
-        // } catch (FileAlreadyExistsException e) {
-        //    System.out.println("File already exists.");
-        // }
-        
-        // Formatting table into a string.
-        String tableStr = "";
-        
-        /*
-        for (int row = 0; row < table.size(); row++) {
-            final String line = String.join(",", table.get(row)) + ",\n";
-            System.out.println(line);
-            tableStr.concat(line);
-        }*/
 
-        // Writing to the file.
+        // Creates a .csv file.
+        final String fileName = "marks.csv";
+        final File file = new File(fileName);
+
+        // Writing and formatting it to the file.
         try {
-            FileWriter fileWriter = new FileWriter("marks.csv", true);
-            
+            final FileWriter fileWriter = new FileWriter(fileName, false);
+
             for (int row = 0; row < table.size(); row++) {
                 final String line = String.join(",", table.get(row)) + ",\n";
                 System.out.println(line);
                 fileWriter.write(line);
             }
             fileWriter.close();
-        } catch (IOException e) {
+        } catch (IOException error) {
             System.out.println("An error occured.");
-            e.printStackTrace();
+            error.printStackTrace();
         }
     }
 
@@ -125,8 +104,8 @@ final class Marks {
     public static void main(final String[] args) {
         final ArrayList<String> listOfStudents = new ArrayList<String>();
         final ArrayList<String> listOfAssignments = new ArrayList<String>();
-        final Path studentFilePath = Paths.get("./", args[0]);
-        final Path assignmentFilePath = Paths.get("./", args[1]);
+        final Path studentFilePath = Paths.get(args[0]);
+        final Path assignmentFilePath = Paths.get(args[1]);
         final Charset charset = Charset.forName("UTF-8");
 
         // Reading the list of students from a text file.
@@ -153,13 +132,10 @@ final class Marks {
             System.err.println(errorCode);
         }
 
-        // System.out.println(listOfStudents);
-        // System.out.println(listOfAssignments);
-
-        // Output - Formats them into .csv file and 
+        // Output - Formats them into .csv file and
         // outputs the content of the file
 
-        System.out.println("\nStudent Grade Report CSV Formatter");
+        System.out.println("\nStudent Grade Report CSV Formatter\n");
 
         generateMarks(listOfStudents, listOfAssignments);
 
