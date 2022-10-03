@@ -2,9 +2,9 @@
 * This is a program generates marks
 * after reading in 2 text files.
 *
-* @author  Mr Coxall
-* @version 1.0
-* @since   2020-01-01
+* @author  Daria Bernice Calitis
+* @version 11.0.16
+* @since   2022-10-02
 */
 
 import java.io.BufferedReader;
